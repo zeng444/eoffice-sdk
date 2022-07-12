@@ -1,0 +1,21 @@
+{
+  "name": "janfish/eoffice",
+  "type": "library",
+  "license": "Apache-2.0",
+  "description": "EOffice Open API SDK",
+  "authors": [
+    {
+      "name": "Robert Zeng",
+      "email": "zeng444@163.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Janfish\\EOffice\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.1",
+    "ext-json": "*"
+  }
+}
