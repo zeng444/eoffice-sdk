@@ -2,9 +2,9 @@
 
 namespace Janfish\EOffice;
 
+use RuntimeException;
 use Janfish\EOffice\Biz\BizTrait;
 use Janfish\EOffice\Utils\Remote;
-
 
 /**
  * Class Server
@@ -60,6 +60,9 @@ class Client
             throw new \RuntimeException('method is not exist');
         }
         $className = sprintf("\Janfish\EOffice\Biz\%s", $matches[1]);
+        if (!class_exists($className)) {
+            throw new RuntimeException('class not exist');
+        }
         return (new $className)->setClient(self::getRemote($this->config));
     }
 

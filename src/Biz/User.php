@@ -2,8 +2,10 @@
 
 namespace Janfish\EOffice\Biz;
 
+use Janfish\EOffice\Exception\BizException;
+
 /**
- * Class Server
+ * Class User
  * @author Robert
  * @package Janfish\EOffice\Biz
  */
@@ -17,6 +19,7 @@ class User
      * @param string $secret
      * @param string $user
      * @return array
+     * @throws BizException
      */
     public function getToken(string $agentId, string $secret, string $user): array
     {
@@ -34,6 +37,7 @@ class User
      * @param string $search
      * @param int $startPage
      * @return array
+     * @throws BizException
      */
     public function list(int $page = 1, int $pageSize = 20, array $sort = [], string $search = '', int $startPage = 1)
     {

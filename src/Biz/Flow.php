@@ -2,8 +2,10 @@
 
 namespace Janfish\EOffice\Biz;
 
+use Janfish\EOffice\Exception\BizException;
+
 /**
- * Class Server
+ * Class Flow
  * @author Robert
  * @package Janfish\EOffice\Biz
  */
@@ -21,6 +23,7 @@ class Flow
      * @param int|null $emergencyType
      * @param string $agentType
      * @return array
+     * @throws
      */
     public function create(
         int $flowId,
@@ -52,6 +55,7 @@ class Flow
      * @param string $flowName
      * @param string $type
      * @return array
+     * @throws BizException
      */
     public function save(
         int $runId,
@@ -82,6 +86,7 @@ class Flow
      * @param array $sonFlowInfo
      * @param string $flowTurnType
      * @return array
+     * @throws BizException
      */
     public function submit(
         int $runId,
@@ -113,6 +118,7 @@ class Flow
      * @param string $secret
      * @param string $user
      * @return array
+     * @throws BizException
      */
     public function getToken(string $agentId, string $secret, string $user): array
     {

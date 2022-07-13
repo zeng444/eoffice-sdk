@@ -5,7 +5,6 @@ namespace Janfish\EOffice\Biz;
 use Janfish\EOffice\Utils\Remote;
 
 /**
- * Class Server
  * @author Robert
  * @package Janfish\EOffice\Biz
  */

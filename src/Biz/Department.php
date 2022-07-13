@@ -2,8 +2,10 @@
 
 namespace Janfish\EOffice\Biz;
 
+use Janfish\EOffice\Exception\BizException;
+
 /**
- * Class Server
+ * Class Department
  * @author Robert
  * @package Janfish\EOffice\Biz
  */
@@ -15,6 +17,7 @@ class Department
     /**
      * 部门列表
      * @return array
+     * @throws BizException
      */
     public function tree(): array
     {

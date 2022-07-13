@@ -5,7 +5,7 @@ namespace Janfish\EOffice\Exception;
 use Exception;
 
 /**
- * Class Server
+ * Class BizException
  * @author Robert
  * @package Janfish\EOffice\Biz
  */
