@@ -96,6 +96,7 @@ class Remote
      * @param string $secret
      * @param string $user
      * @return string
+     * @throws BizException
      */
     public function getToken(string $agentId, string $secret, string $user): string
     {
@@ -114,7 +115,6 @@ class Remote
 
 
     /**
-     *
      * @param string $uri
      * @param string $data
      * @param array $headers
@@ -127,7 +127,7 @@ class Remote
             CURLOPT_URL => $uri,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => $this->timeout,
-            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $data,
             CURLOPT_HTTPHEADER => $headers,
         ]);

@@ -3,7 +3,7 @@
 #### Reference
 
 ```
-use Janfish\EOffice\Client as EOfficeClient;
+use Janfish\EOffice\SDK as EOfficeSDK;
 
 try {
     $config = [
@@ -13,8 +13,8 @@ try {
         'user' => 'zengweiqi',
         'timeout' => 30,
     ];
-    $client = new EOfficeClient($config);
-    $response = $client->getDepartment()->tree();
+    $sdk = new EOfficeSDK($config);
+    $response = $sdk->getDepartment()->tree();
     print_r($response);
 
 } catch (Exception $e) {
@@ -36,10 +36,10 @@ try {
         'user' => 'zengweiqi',
         'timeout' => 30,
     ];
-    $client = new EOfficeClient($config);
-    $department = $client->getDepartment();
-    $user = $client->getUser();
-    $flow = $client->getFlow();
+    $sdk = new EOfficeSDK($config);
+    $department = $sdk->getDepartment();
+    $user = $sdk->getUser();
+    $flow = $sdk->getFlow();
 
 
 } catch (Exception $e) {

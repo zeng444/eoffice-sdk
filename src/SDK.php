@@ -4,7 +4,6 @@ namespace Janfish\EOffice;
 
 use RuntimeException;
 use Janfish\EOffice\Biz\BizTrait;
-use Janfish\EOffice\Utils\Remote;
 
 /**
  * Class Server
@@ -14,7 +13,7 @@ use Janfish\EOffice\Utils\Remote;
  * @method \Janfish\EOffice\Biz\Department getDepartment()
  * @method \Janfish\EOffice\Biz\User getUser()
  */
-class Client
+class SDK
 {
 
     use BizTrait;
@@ -22,7 +21,7 @@ class Client
     /**
      * @var array
      */
-    private $config = [];
+    private $config;
 
     /**
      * @var
@@ -38,15 +37,19 @@ class Client
     }
 
     /**
+     * @param string $className
      * @param array $config
-     * @return Remote
+     * @return mixed
      */
-    static private function getRemote(array $config): Remote
+    static private function getInstance(string $className, array $config = [])
     {
-        if (!self::$_remote) {
-            self::$_remote = new Remote($config);
+        if (!class_exists($className)) {
+            throw new RuntimeException('class not exist');
         }
-        return self::$_remote;
+        if (!isset(self::$_remote[$className])) {
+            self::$_remote[$className] = new $className($config);
+        }
+        return self::$_remote[$className];
     }
 
     /**
@@ -56,14 +59,11 @@ class Client
      */
     public function __call(string $method, array $arguments)
     {
-        if (!preg_match('/get([\w]+)/', $method, $matches)) {
+        if (!preg_match('/^get([\w]+)$/', $method, $matches)) {
             throw new \RuntimeException('method is not exist');
         }
         $className = sprintf("\Janfish\EOffice\Biz\%s", $matches[1]);
-        if (!class_exists($className)) {
-            throw new RuntimeException('class not exist');
-        }
-        return (new $className)->setClient(self::getRemote($this->config));
+        return (self::getInstance($className))->setClient(self::getInstance('\Janfish\EOffice\Utils\Remote', $this->config));
     }
 
 }
