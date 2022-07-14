@@ -37,10 +37,16 @@ try {
         'timeout' => 30,
     ];
     $sdk = new EOfficeSDK($config);
-    $department = $sdk->getDepartment();
-    $user = $sdk->getUser();
-    $flow = $sdk->getFlow();
-
+    
+    $departmentList = $sdk->getDepartment()->tree;
+    
+    $userToken = $sdk->getUser()->getToken();
+    $userList = $sdk->getUser()->list();
+    
+    $flowlist = $sdk->getFlow()->list();
+    $flowToDolist = $sdk->getFlow()->todoList();
+    $flowDonelist = $sdk->getFlow()->doneList();
+    $flowFinishedlist = $sdk->getFlow()->finishedList();
 
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;

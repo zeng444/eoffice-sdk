@@ -71,10 +71,10 @@ class Remote
      * @param string $method
      * @param string $path
      * @param array $data
-     * @return array
+     * @return mixed
      * @throws BizException
      */
-    public function call(string $method, string $path, array $data = []): array
+    public function call(string $method, string $path, array $data = [])
     {
         $method = sprintf('http%s', ucfirst($method));
         $result = $this->$method($this->apiPrefix . $path, http_build_query($data), [

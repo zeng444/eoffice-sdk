@@ -74,10 +74,10 @@ class Flow
             'create_type' => $type,
             'form_data' => $formData,
         ];
-        if($flowName){
+        if ($flowName) {
             $reqData['run_name'] = $flowName;
         }
-        if($flowContent){
+        if ($flowContent) {
             $reqData['run_name_html'] = $flowContent;
         }
         return $this->remote->call('post', 'api/flow/run/save-flow-run-info', $reqData);
@@ -94,7 +94,7 @@ class Flow
      * @param string $processCopyUser
      * @param array $sonFlowInfo
      * @param string $flowTurnType
-     * @return array
+     * @return mixed
      * @throws BizException
      */
     public function submit(
@@ -108,7 +108,7 @@ class Flow
         string $processCopyUser = '',
         array $sonFlowInfo = [],
         string $flowTurnType = ''
-    ): array {
+    ) {
         $reqData = [
             'run_id' => $runId,
             'process_id' => $processId,
@@ -120,27 +120,150 @@ class Flow
             'sonFlowInfo' => $sonFlowInfo,
             'flowTurnType' => $flowTurnType,
         ];
-        if($flowProcess){
+        if ($flowProcess) {
             $reqData['flow_process'] = $flowProcess;
         }
         return $this->remote->call('post', 'api/flow/run/flow-turning', $reqData);
     }
 
-
     /**
-     * @param string $agentId
-     * @param string $secret
-     * @param string $user
+     * @param int $page
+     * @param int $pageSize
+     * @param int $startPage
+     * @param array $sort
+     * @param array $search
+     * @param int|null $formId
+     * @param array $formExportParams
+     * @param array $formSearchParams
+     * @param bool $withDetail
      * @return array
      * @throws BizException
      */
-    public function getToken(string $agentId, string $secret, string $user): array
-    {
-        return $this->remote->call('post', 'api/flow/run/flow-turning', [
-            'agent_id' => $agentId,
-            'secret' => $secret,
-            'user' => $user,
-        ]);
+    public function list(
+        int $page = 1,
+        int $pageSize = 20,
+        int $startPage = 1,
+        array $sort = [],
+        array $search = [],
+        int $formId = null,
+        array $formExportParams = [],
+        array $formSearchParams = [],
+        bool $withDetail = true
+    ): array {
+        $reqData = [
+            'form_id' => $formId,
+            'autoFixPage' => $startPage,
+            'page' => $page,
+            'limit' => $pageSize,
+        ];
+        if ($search) {
+            $reqData['search'] = json_encode($search);
+        }
+        if ($formExportParams) {
+            $reqData['formExportParams'] = json_encode($formExportParams);
+        }
+        if ($formSearchParams) {
+            $reqData['formSearchParams'] = json_encode($formSearchParams);
+        }
+        if ($sort) {
+            $reqData['order_by'] = json_encode($sort);
+        }
+        if ($withDetail) {
+            $reqData['flow_module_factory'] = 1;
+        }
+        return $this->remote->call('get', 'api/flow/flow-list/flow-search-list', $reqData);
     }
+
+
+    /**
+     * @param int $page
+     * @param int $pageSize
+     * @param int $startPage
+     * @param array $sort
+     * @param array $search
+     * @return array
+     * @throws BizException
+     */
+    public function finishedList(
+        int $page = 1,
+        int $pageSize = 20,
+        int $startPage = 1,
+        array $sort = [],
+        array $search = []): array
+    {
+        $reqData = [
+            'autoFixPage' => $startPage,
+            'page' => $page,
+            'limit' => $pageSize,
+        ];
+        if ($sort) {
+            $reqData['order_by'] = json_encode($sort);
+        }
+        if ($search) {
+            $reqData['search'] = json_encode($search);
+        }
+        return $this->remote->call('get', 'api/flow/flow-list/finished-list', $reqData);
+    }
+
+    /**
+     * @param int $page
+     * @param int $pageSize
+     * @param int $startPage
+     * @param array $sort
+     * @param array $search
+     * @return array
+     * @throws BizException
+     */
+    public function todoList(
+        int $page = 1,
+        int $pageSize = 20,
+        int $startPage = 1,
+        array $sort = [],
+        array $search = []): array
+    {
+        $reqData = [
+            'autoFixPage' => $startPage,
+            'page' => $page,
+            'limit' => $pageSize,
+        ];
+        if ($sort) {
+            $reqData['order_by'] = json_encode($sort);
+        }
+        if ($search) {
+            $reqData['search'] = json_encode($search);
+        }
+        return $this->remote->call('get', 'api/flow/flow-list/teed-to-do-list', $reqData);
+    }
+
+    /**
+     * @param int $page
+     * @param int $pageSize
+     * @param int $startPage
+     * @param array $sort
+     * @param array $search
+     * @return array
+     * @throws BizException
+     */
+    public function doneList(
+        int $page = 1,
+        int $pageSize = 20,
+        int $startPage = 1,
+        array $sort = [],
+        array $search = []): array
+    {
+        $reqData = [
+            'autoFixPage' => $startPage,
+            'page' => $page,
+            'limit' => $pageSize,
+        ];
+        if ($sort) {
+            $reqData['order_by'] = json_encode($sort);
+        }
+        if ($search) {
+            $reqData['search'] = json_encode($search);
+        }
+        return $this->remote->call('get', 'api/flow/flow-list/already-do-list', $reqData);
+    }
+
 
 }
