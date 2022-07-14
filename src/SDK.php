@@ -6,7 +6,7 @@ use RuntimeException;
 use Janfish\EOffice\Biz\BizTrait;
 
 /**
- * Class Server
+ * Class SDK
  * @author Robert
  * @package Janfish\EOffice
  * @method \Janfish\EOffice\Biz\Flow getFlow()

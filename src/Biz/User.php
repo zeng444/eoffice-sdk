@@ -34,7 +34,7 @@ class User
      * @param int $page
      * @param int $pageSize
      * @param array $sort
-     * @param string $search
+     * @param array $search
      * @param int $startPage
      * @return array
      * @throws BizException

@@ -135,10 +135,10 @@ class Remote
         $err = curl_error($curl);
         curl_close($curl);
         if ($err) {
-            throw new RuntimeException('http post error:' . $err);
+            throw new RuntimeException('Http post error:' . $err);
         }
         if (!$response) {
-            throw new RuntimeException('response is empty');
+            throw new RuntimeException('Response is empty');
         }
         return $response;
     }
@@ -162,10 +162,10 @@ class Remote
         $err = curl_error($curl);
         curl_close($curl);
         if ($err) {
-            throw new RuntimeException('http post error:' . $err);
+            throw new RuntimeException('Http get error:' . $err);
         }
         if (!$response) {
-            throw new RuntimeException('response is empty');
+            throw new RuntimeException('Response is empty');
         }
         return $response;
     }
