@@ -7,38 +7,36 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 use Janfish\EOffice\SDK as EOfficeSDK;
 
+
+const FLOW_ID = 50; //流程模板ID，这个写死，id50为“业务支付申请”表
+const FLOW_PROCESS_ID = 1; //流程步骤ID
+const FLOW_START_PROCESS_ID = 189; //初始流程节点ID
+const FLOW_NEXT_PROCESS_ID = 190;//提交流程节点ID
+const FLOW_PROCESS_HOST = 'WV00000002';//主办人ID，此处使用userId，来自User()->list接口
+
 try {
+
     $config = [
         'apiPrefix' => 'http://192.168.10.242:8010/eoffice10/server/public/',
         'agentId' => '100001',
         'secret' => 'B771nF3FqMCJuaUuv74AhcfXwp5hia7o',
         'user' => 'zengweiqi',
-        'timeout' => 30,
     ];
     $client = new EOfficeSDK($config);
 
-    //流程标题
-    $flowTitle = "Robert的业务支付申请";
-
-    //创建流程ID，这个写死，id50为“业务支付申请”表
-    $flowId = 50;
-
-    //必须包裹div否则会创建失败
-    $content = '<div><h3>' . $flowTitle . '</h3></div>';
-
     $form = [
-        //表头标题
+        //表头标题，参考“公司”选择器
         'DATA_86' => "1", //选项标识
         'DATA_86_TEXT' => "成都市云瑞铭博企业管理有限公司", //选项值
 
         //申请日期
         'DATA_100' => "2022-07-13",
 
-        //招标人
+        //招标人，参考“公司”选择器
         'DATA_87' => "3",//选项标识
         'DATA_87_TEXT' => "四川鸿运欣智科技有限公司",//选项值
 
-        //招标人性质
+        //招标人性质，参考“招标人性质”选择器
         'DATA_85' => "1", //选项标识
         'DATA_85_TEXT' => "一般纳税人", //选项值
 
@@ -55,7 +53,7 @@ try {
                 'DATA_101_4' => "冯举", //投标方收款户名
                 'DATA_101_6' => "51515151517844", //收款银行账号
 
-                //支付方式
+                //支付方式，参考“支付方式”选择器
                 'DATA_101_5' => "1",  //选项标识
                 'DATA_101_5_TEXT' => "现金", //选项值
 
@@ -75,19 +73,20 @@ try {
         'DATA_99' => "",//负责人审核（创建不填写）
     ];
 
+    //流程标题
+    $flowTitle = "Robert的业务支付申请";
+    //必须包裹div否则会创建失败
+    $content = '<div><h3>' . $flowTitle . '</h3></div>';
+
     //创建流程
-    $result = $client->getFlow()->create(50, $flowTitle, $content, $form);
+    $result = $client->getFlow()->create(FLOW_ID, $flowTitle, $content, $form);
 
     print_r($result);
-
-    $process_id = 1;
 
     $run_id = $result['run_id'];
     $flowRunProcessId = $result['flow_run_process_id'];
 
-    $processHost = 'WV00000002'; //此处使用userId，来自User()->list接口
-    $result = $client->getFlow()->submit($run_id, $process_id, $flowRunProcessId, $processHost, '', '189', '190', '',
-        [], 'turn');
+    $result = $client->getFlow()->submit($run_id, FLOW_PROCESS_ID, $flowRunProcessId, FLOW_PROCESS_HOST, '',FLOW_START_PROCESS_ID, FLOW_NEXT_PROCESS_ID, '', [], 'turn');
 
     print_r($result);
 
@@ -95,6 +94,7 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
 }
+
 
 ```
 
