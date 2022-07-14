@@ -39,7 +39,7 @@ class User
      * @return array
      * @throws BizException
      */
-    public function list(int $page = 1, int $pageSize = 20, array $sort = [], string $search = '', int $startPage = 1): array
+    public function list(int $page = 1, int $pageSize = 20, array $sort = [], array $search = [], int $startPage = 1): array
     {
         return $this->remote->call('post', 'api/user/users', [
             'autoFixPage' => $startPage,

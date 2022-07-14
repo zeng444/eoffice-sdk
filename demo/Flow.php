@@ -83,8 +83,7 @@ try {
     $run_id = $result['run_id'];
     $flowRunProcessId = $result['flow_run_process_id'];
 
-    $processHost = 'WV00000002';
-    $processTransactUser = 'WV00000004';
+    $processHost = 'WV00000002'; //此处使用userId，来自User()->list接口
     $result = $client->getFlow()->submit($run_id, $process_id, $flowRunProcessId, $processHost, '', '189', '190', '',
         [], 'turn');
 
